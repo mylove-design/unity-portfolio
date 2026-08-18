@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>唐良聪 - Unity游戏开发</title>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --border: #2a2d3a;
+    --text: #c8ccd4; --muted: #7a7f8a; --accent: #5b9bd5;
+    --tag-bg: #1e2233; --tag-text: #8ea4c2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(15,17,23,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .inner { max-width: 900px; margin: 0 auto; display: flex; gap: 28px; padding: 14px 24px; }
+  nav a { color: var(--muted); font-size: 14px; cursor: pointer; }
+  nav a:hover { color: #fff; text-decoration: none; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== 主页 Hero ===== */
+  .hero { padding: 120px 0 50px; text-align: center; }
+  .hero h1 { font-size: 36px; color: #fff; font-weight: 700; margin-bottom: 8px; }
+  .hero .subtitle { font-size: 17px; color: var(--muted); margin-bottom: 12px; }
+  .hero .brief { font-size: 15px; max-width: 600px; margin: 0 auto; }
+  .hero .links { margin-top: 18px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .hero .links a { display: inline-block; padding: 8px 20px; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; }
+  .hero .links a:hover { border-color: var(--accent); color: #fff; text-decoration: none; }
+
+  /* ===== 提示小字 ===== */
+  .hint { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 8px; }
+
+  /* ===== 项目卡片列表 ===== */
+  section { padding: 40px 0; }
+  .section-title { font-size: 22px; color: #fff; font-weight: 600; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 24px; margin-bottom: 14px;
+    cursor: pointer; transition: border-color 0.2s, transform 0.15s;
+  }
+  .project-card:hover { border-color: #4a5568; transform: translateX(4px); }
+  .project-card .name { font-size: 17px; color: #fff; font-weight: 600; }
+  .project-card .meta { font-size: 12px; color: var(--muted); margin: 4px 0 6px; }
+  .project-card .desc { font-size: 13px; color: var(--text); }
+  .project-card .tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .project-card .tags span { font-size: 11px; background: var(--tag-bg); color: var(--tag-text); padding: 2px 10px; border-radius: 12px; }
+  .project-card .arrow { float: right; color: var(--muted); font-size: 14px; margin-top: -24px; }
+
+  /* ===== 详情页 ===== */
+  .detail-page { display: none; }
+  .detail-page.active { display: block; }
+
+  .back-btn {
+    display: inline-block; margin-bottom: 20px; padding: 6px 16px;
+    border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-size: 14px; cursor: pointer;
+    background: transparent;
+  }
+  .back-btn:hover { border-color: var(--accent); color: #fff; }
+
+  .detail-title { font-size: 24px; color: #fff; font-weight: 700; margin-bottom: 4px; }
+  .detail-meta { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .detail-desc { font-size: 14px; margin-bottom: 14px; line-height: 1.8; }
+  .detail-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .detail-tags span { font-size: 11px; background: var(--tag-bg); color: var(--tag-text); padding: 2px 10px; border-radius: 12px; }
+
+  .detail-media { display: flex; flex-wrap: wrap; gap: 12px; }
+  .detail-media img { max-width: 100%; max-height: 400px; border-radius: 6px; border: 1px solid var(--border); }
+  .detail-media video { max-width: 100%; max-height: 400px; border-radius: 6px; border: 1px solid var(--border); }
+
+  /* ===== 技能 ===== */
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-tag { background: var(--tag-bg); color: var(--tag-text); padding: 6px 16px; border-radius: 20px; font-size: 13px; }
+
+  .info-row { display: flex; flex-wrap: wrap; gap: 24px; font-size: 14px; }
+  .info-row span { color: var(--muted); }
+
+  .lost-note { text-align: center; font-size: 12px; color: #555; margin-top: 32px; font-style: italic; }
+
+  footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 40px; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 90px 0 40px; }
+    .hero h1 { font-size: 26px; }
+    .project-card .arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a onclick="showList()">项目列表</a>
+    <a href="#skills">技能</a>
+    <a href="#contact">联系</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ==================== 列表页 ==================== -->
+<div id="listPage">
+
+  <div class="hero">
+    <h1>唐良聪</h1>
+    <div class="subtitle">Unity 游戏客户端开发工程师</div>
+    <div class="brief">
+      西南财经大学天府学院 2023级本科生，计算机科学与技术专业。<br>
+      自学Unity开发，有游戏公司实习经历。
+    </div>
+    <div class="links">
+      <a href="mailto:2256304779@qq.com">邮箱联系</a>
+    </div>
+  </div>
+
+  <!-- 技能 -->
+  <section id="skills">
+    <div class="section-title">专业技能</div>
+    <div class="skill-tags">
+      <span class="skill-tag">Unity3D · 2D/3D开发 · UGUI</span>
+      <span class="skill-tag">C# · 数据结构与算法</span>
+      <span class="skill-tag">设计模式 · MVC</span>
+      <span class="skill-tag">AssetBundle · 资源管理 · 热更新</span>
+      <span class="skill-tag">XLua · C#/Lua双向调用</span>
+      <span class="skill-tag">背包/商店/任务等核心系统</span>
+      <span class="skill-tag">网络通信 · Protobuf协议</span>
+      <span class="skill-tag">渲染管线 · Shader基础</span>
+      <span class="skill-tag">性能优化 · Profiler · DrawCall</span>
+      <span class="skill-tag">移动端SDK接入 · 腾讯YSDK</span>
+    </div>
+  </section>
+
+  <!-- 项目列表 -->
+  <section>
+    <div class="section-title">项目作品</div>
+    <p class="hint">👇 点击任意项目卡片可查看详细截图和视频</p>
+
+    <div class="project-card" onclick="showDetail('emmo')">
+      <span class="arrow">&gt;</span>
+      <div class="name">极恶之战 — MMO网游</div>
+      <div class="meta">Unity 2021.3 | 独立学习项目</div>
+      <div class="desc">涵盖登录注册、角色创建、背包、装备、商城、任务、公会、队伍、好友、聊天、坐骑等MMO核心功能。服务端C#搭建，Protobuf通信，SQL Server数据库。</div>
+      <div class="tags"><span>MMO</span><span>Protobuf</span><span>SQL Server</span><span>UGUI</span><span>网络通信</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('horror')">
+      <span class="arrow">&gt;</span>
+      <div class="name">ARPG恐怖游戏 — 废弃精神病院</div>
+      <div class="meta">Unity 2023.1 | 独立开发</div>
+      <div class="desc">第一人称生存恐怖游戏。丧尸AI、女鬼哭泣天使机制、门交互、电梯系统。FirstPersonController从零手写近500行。</div>
+      <div class="tags"><span>FPS</span><span>NavMeshAgent</span><span>AI行为</span><span>动画状态机</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('xlua')">
+      <span class="arrow">&gt;</span>
+      <div class="name">XLua热更新框架开发的小游戏</div>
+      <div class="meta">Unity 2021.3 | 实习期间</div>
+      <div class="desc">熟悉公司XLua框架后，用Lua编写的小游戏。跑通了AssetBundle打包→Lua热更新→游戏运行的全流程。</div>
+      <div class="tags"><span>XLua</span><span>AssetBundle</span><span>热更新</span><span>Lua</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('photon')">
+      <span class="arrow">&gt;</span>
+      <div class="name">Photon PUN2 多人联机 Demo</div>
+      <div class="meta">Unity 2022.3 | Photon PUN2 | 独立学习项目</div>
+      <div class="desc">基于Photon PUN2的多人联机Demo，实现房间创建/加入、玩家同步、大厅匹配等核心功能。</div>
+      <div class="tags"><span>Photon PUN2</span><span>网络同步</span><span>房间系统</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('esp')">
+      <span class="arrow">&gt;</span>
+      <div class="name">ESP32/ESP8266 WiFi体感舞蹈游戏</div>
+      <div class="meta">Unity 2022.3 | 硬件通信 | 独立开发</div>
+      <div class="desc">WiFi接收传感器数据，跳舞机玩法。两版迭代，增加手部/身体追踪和ESP32-CAM摄像头画面。</div>
+      <div class="tags"><span>ESP8266</span><span>ESP32-CAM</span><span>WiFi通信</span><span>传感器</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('digitaltwin')">
+      <span class="arrow">&gt;</span>
+      <div class="name">钢铁工业数字孪生 — 冷轧连退线</div>
+      <div class="meta">Unity 2022.3 | XCharts | 兼职项目</div>
+      <div class="desc">钢铁厂冷轧连退产线3D虚拟仿真。酸洗→酸轧→连退→镀锌→彩涂，XCharts实时数据图表。</div>
+      <div class="tags"><span>数字孪生</span><span>XCharts</span><span>ExcelImporter</span><span>工业仿真</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('ysdk')">
+      <span class="arrow">&gt;</span>
+      <div class="name">Unity接入腾讯应用宝YSDK</div>
+      <div class="meta">Unity 2021.3 | Android SDK | 学习项目</div>
+      <div class="desc">接入腾讯应用宝YSDK，实现微信登录、手Q登录、权限管理。APK打包真机测试。</div>
+      <div class="tags"><span>腾讯YSDK</span><span>Android</span><span>微信登录</span><span>APK</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('lostcity')">
+      <span class="arrow">&gt;</span>
+      <div class="name">迷失之城 UI界面</div>
+      <div class="meta">Unity | UI开发</div>
+      <div class="desc">游戏功能界面的UI拼装和交互逻辑实现。</div>
+      <div class="tags"><span>UGUI</span><span>UI系统</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('2dgame')">
+      <span class="arrow">&gt;</span>
+      <div class="name">2D小游戏</div>
+      <div class="meta">Unity | 2D开发</div>
+      <div class="desc">2D游戏Demo，包含基本玩法和UI界面。</div>
+      <div class="tags"><span>2D</span><span>UGUI</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('bag')">
+      <span class="arrow">&gt;</span>
+      <div class="name">背包抽奖系统</div>
+      <div class="meta">Unity | 功能模块</div>
+      <div class="desc">游戏中的背包和抽奖功能模块展示。</div>
+      <div class="tags"><span>背包系统</span><span>UGUI</span></div>
+    </div>
+
+  </section>
+
+  <p class="lost-note">主播目前只能找到这些素材了，有些素材因为特殊原因无法找到咯~</p>
+
+  <!-- 联系 -->
+  <section id="contact">
+    <div class="section-title">联系方式</div>
+    <div class="info-row">
+      <span>邮箱：<a href="mailto:2256304779@qq.com">2256304779@qq.com</a></span>
+      <span>微信：wxid_dk48ne5f2uox22</span>
+      <span>城市：成都</span>
+    </div>
+    <p style="font-size:13px; color:var(--muted); margin-top:10px;">欢迎联系交流，可提供更详细的项目演示。</p>
+  </section>
+
+  <footer>© 2026 唐良聪 · 个人作品集</footer>
+
+</div><!-- /listPage -->
+
+<!-- ==================== 详情页 ==================== -->
+<div id="detailPage" class="detail-page">
+
+  <button class="back-btn" onclick="showList()">← 返回项目列表</button>
+  <div id="detailContent"></div>
+
+</div><!-- /detailPage -->
+
+</div><!-- /container -->
+
+<script>
+// ========== 项目数据 ==========
+const projects = {
+
+  emmo: {
+    title: '极恶之战 — MMO网游',
+    meta: 'Unity 2021.3 | 独立学习项目',
+    desc: '基于Unity开发的MMO网游Demo，涵盖登录注册、角色创建、背包系统、装备、商城、任务系统（对话/提交/击杀）、公会（创建/加入/成员管理）、队伍、好友、聊天、坐骑等核心功能。服务端用C#搭建，使用Protobuf通信协议，SQL Server数据库实现玩家数据持久化存储。网络层用TCP Socket实现C/S通信，消息分发用事件系统解耦各模块。',
+    tags: ['MMO', 'Protobuf', 'SQL Server', 'UGUI', '网络通信', '任务系统', '公会系统'],
+    media: [
+      { type: 'img', src: '极恶之战素材/01.png' },
+      { type: 'img', src: '极恶之战素材/02.png' },
+      { type: 'img', src: '极恶之战素材/03.png' },
+      { type: 'img', src: '极恶之战素材/04.png' },
+      { type: 'img', src: '极恶之战素材/05.png' },
+      { type: 'img', src: '极恶之战素材/06.png' },
+      { type: 'img', src: '极恶之战素材/07.png' },
+      { type: 'video', src: '极恶之战素材/视频.mp4' },
+    ]
+  },
+
+  horror: {
+    title: 'ARPG恐怖游戏 — 废弃精神病院',
+    meta: 'Unity 2023.1 | 独立开发',
+    desc: '第一人称生存恐怖游戏。场景是废弃精神病院，玩家拿着手电筒和枪（手枪/步枪按C切换）探索。两个敌人：普通丧尸用NavMeshAgent寻路（检测范围5米，攻击范围2米），女鬼用点积判断玩家是否在看她——你看她时她不动，转头她就冲过来（类似神秘博士哭泣天使）。门用Quaternion.Slerp平滑开关，电梯带着玩家上下移动。血量100点，死亡后5秒自动重载场景。FirstPersonController从零手写，将近500行，管移动、视角、武器切换、换弹(R键)、射击(射线检测)、受击扣血。',
+    tags: ['FPS控制器', 'NavMeshAgent', 'AI行为', '射线检测', '动画状态机', '音频系统'],
+    media: [
+      { type: 'img', src: 'ARPG恐怖游戏素材/01.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/02.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/03.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/04.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/05.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/06.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/07.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/08.png' },
+      { type: 'img', src: 'ARPG恐怖游戏素材/09.png' },
+    ]
+  },
+
+  xlua: {
+    title: 'XLua热更新框架开发的小游戏',
+    meta: 'Unity 2021.3 | 实习期间',
+    desc: '实习期间在熟悉了公司XLua热更新框架（底层类似木渊框架/MuYuan Framework，用UPM包管理，Lua支持多版本运行时）之后，用Lua写的小游戏。目的是跑通 AssetBundle资源打包 → Lua脚本热更新 → 游戏运行 的完整开发流程。加深了对热更新机制、资源管理、Lua代码组织方式的理解。',
+    tags: ['XLua', 'AssetBundle', '热更新', 'Lua', 'UPM'],
+    media: [
+      { type: 'img', src: 'CoreXlua框架开发的小游戏/01.png' },
+      { type: 'img', src: 'CoreXlua框架开发的小游戏/02.png' },
+      { type: 'img', src: 'CoreXlua框架开发的小游戏/03.png' },
+      { type: 'img', src: 'CoreXlua框架开发的小游戏/04.png' },
+      { type: 'img', src: 'CoreXlua框架开发的小游戏/05.png' },
+    ]
+  },
+
+  photon: {
+    title: 'Photon PUN2 多人联机 Demo',
+    meta: 'Unity 2022.3 | Photon PUN2 | 独立学习项目',
+    desc: '基于Photon PUN2的多人联机Demo，熟悉了Photon的网络同步机制。实现了房间创建/加入、玩家列表、大厅匹配等联机核心功能。也尝试了Photon Chat和Photon Voice的接入。为后续做FPS联机游戏打下了网络基础。',
+    tags: ['Photon PUN2', '网络同步', '房间系统', 'UGUI', 'Photon Chat', 'Photon Voice'],
+    media: [
+      { type: 'img', src: 'Punton2素材/01.png' },
+      { type: 'img', src: 'Punton2素材/02.png' },
+      { type: 'img', src: 'Punton2素材/03.png' },
+      { type: 'img', src: 'Punton2素材/04.png' },
+      { type: 'img', src: 'Punton2素材/05.png' },
+    ]
+  },
+
+  esp: {
+    title: 'ESP32/ESP8266 WiFi体感舞蹈游戏',
+    meta: 'Unity 2022.3 | 硬件通信 | 独立开发',
+    desc: '两个迭代版本的体感舞蹈游戏。通过ESP8266 WiFi接收外部传感器数据来控制游戏箭头移动，玩法类似跳舞机。第一版实现了基础的传感器数据解析和箭头匹配。改进版ESPWifiDance增加了手部和身体追踪、数据管理器、结算系统，还接入了ESP32-CAM摄像头实时画面。歌曲选择系统可以选不同曲目。核心难点是WiFi数据的实时解析和多线程处理（用UnityMainThreadDispatcher回主线程更新UI）。',
+    tags: ['ESP8266', 'ESP32-CAM', 'WiFi通信', '传感器', '多线程', '体感游戏'],
+    media: [
+      { type: 'img', src: 'ESP32体感舞蹈素材/01.png' },
+      { type: 'video', src: 'ESP32体感舞蹈素材/视频1.mp4' },
+    ]
+  },
+
+  digitaltwin: {
+    title: '钢铁工业数字孪生 — 冷轧连退线',
+    meta: 'Unity 2022.3 | XCharts | 兼职项目',
+    desc: '钢铁厂冷轧连退产线的3D虚拟仿真系统。覆盖整条产线：酸洗→酸轧→连退→热镀锌→热镀铝→电镀锌→彩涂，每个工序有对应设备模型和动画控制。用XCharts做实时工业数据图表展示，ExcelImporter导入生产数据驱动仿真运行。UI系统包含主界面、数据面板、工厂总览、标签系统、码头界面等。每个工序一个Control脚本（LiantuiControl、ZhuanluControl、SuanxiControl等）控制设备动画和状态切换。',
+    tags: ['数字孪生', 'XCharts', 'ExcelImporter', '工业仿真', '设备控制', 'UGUI'],
+    media: [
+      { type: 'img', src: '数字孪生素材/01.png' },
+      { type: 'img', src: '数字孪生素材/02.png' },
+      { type: 'img', src: '数字孪生素材/03.jpg' },
+    ]
+  },
+
+  ysdk: {
+    title: 'Unity接入腾讯应用宝YSDK',
+    meta: 'Unity 2021.3 | Android SDK | 学习项目',
+    desc: '在Unity项目中接入腾讯应用宝YSDK（Android版本），实现了微信登录和手Q登录的授权流程，处理了Android权限管理。完成后打包APK在真机上测试验证。了解了Unity与Android原生SDK的交互方式（JNI桥接）。',
+    tags: ['腾讯YSDK', 'Android', '微信登录', '手Q登录', 'APK打包', 'JNI'],
+    media: [
+      { type: 'img', src: 'Unity接入YSDK素材/01.png' },
+      { type: 'img', src: 'Unity接入YSDK素材/02.png' },
+      { type: 'img', src: 'Unity接入YSDK素材/03.png' },
+      { type: 'img', src: 'Unity接入YSDK素材/04.png' },
+      { type: 'img', src: 'Unity接入YSDK素材/05.png' },
+      { type: 'img', src: 'Unity接入YSDK素材/06.png' },
+      { type: 'video', src: 'Unity接入YSDK素材/视频01.mp4' },
+    ]
+  },
+
+  lostcity: {
+    title: '迷失之城 UI界面',
+    meta: 'Unity | UI开发',
+    desc: '游戏功能界面的UI拼装和交互逻辑实现。在现有UI框架下完成了功能面板的布局、数据绑定和交互逻辑，熟悉了项目UI开发的规范和流程。',
+    tags: ['UGUI', 'UI系统', '数据绑定'],
+    media: [
+      { type: 'img', src: '迷失之城UI素材/01.jpg' },
+      { type: 'video', src: '迷失之城UI素材/02.mp4' },
+    ]
+  },
+
+  '2dgame': {
+    title: '2D小游戏',
+    meta: 'Unity | 2D开发',
+    desc: '2D游戏Demo，包含角色控制、基本玩法和UI界面。练习了2D物理碰撞、精灵动画、UGUI在2D模式下的适配等基础内容。',
+    tags: ['2D', 'UGUI', '2D物理'],
+    media: [
+      { type: 'img', src: '2D小游戏素材/01.png' },
+      { type: 'video', src: '2D小游戏素材/视频01.mp4' },
+    ]
+  },
+
+  bag: {
+    title: '背包抽奖系统',
+    meta: 'Unity | 功能模块',
+    desc: '游戏中的背包系统和抽奖功能模块。包含物品网格布局、拖拽排序、物品信息展示、抽奖转盘/随机逻辑等常见游戏功能。',
+    tags: ['背包系统', 'UGUI', '抽奖系统', '网格布局'],
+    media: [
+      { type: 'video', src: '单独背包抽奖素材/视频.mp4' },
+    ]
+  },
+
+};
+
+// ========== 页面切换 ==========
+function showDetail(id) {
+  const proj = projects[id];
+  if (!proj) return;
+
+  document.getElementById('listPage').style.display = 'none';
+  document.getElementById('detailPage').classList.add('active');
+
+  let html = `<div class="detail-title">${proj.title}</div>`;
+  html += `<div class="detail-meta">${proj.meta}</div>`;
+  html += `<div class="detail-desc">${proj.desc}</div>`;
+  html += `<div class="detail-tags">${proj.tags.map(t => '<span>'+t+'</span>').join('')}</div>`;
+  html += `<div class="detail-media">`;
+  for (const m of proj.media) {
+    if (m.type === 'img') {
+      html += `<img src="${m.src}" alt="" loading="lazy">`;
+    } else {
+      html += `<video src="${m.src}" controls preload="metadata"></video>`;
+    }
+  }
+  html += `</div>`;
+
+  document.getElementById('detailContent').innerHTML = html;
+  window.scrollTo(0, 0);
+}
+
+function showList() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('listPage').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>
