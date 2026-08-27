@@ -260,7 +260,6 @@
 <!-- ==================== 详情页 ==================== -->
 <div id="detailPage" class="detail-page">
 
-  <button class="back-btn" onclick="showList()">← 返回项目列表</button>
   <div id="detailContent"></div>
 
 </div><!-- /detailPage -->
@@ -420,14 +419,19 @@ const projects = {
 };
 
 // ========== 页面切换 ==========
+let savedScrollY = 0;
+
 function showDetail(id) {
+  savedScrollY = window.scrollY;
+
   const proj = projects[id];
   if (!proj) return;
 
   document.getElementById('listPage').style.display = 'none';
   document.getElementById('detailPage').classList.add('active');
 
-  let html = `<div class="detail-title">${proj.title}</div>`;
+  let html = `<button class="back-btn" onclick="showList()">← 返回项目列表</button>`;
+  html += `<div class="detail-title">${proj.title}</div>`;
   html += `<div class="detail-meta">${proj.meta}</div>`;
   html += `<div class="detail-desc">${proj.desc}</div>`;
   html += `<div class="detail-tags">${proj.tags.map(t => '<span>'+t+'</span>').join('')}</div>`;
@@ -450,7 +454,7 @@ function showDetail(id) {
 function showList() {
   document.getElementById('detailPage').classList.remove('active');
   document.getElementById('listPage').style.display = 'block';
-  window.scrollTo(0, 0);
+  window.scrollTo(0, savedScrollY);
 }
 </script>
 
