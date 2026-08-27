@@ -117,8 +117,8 @@
     <h1>唐良聪</h1>
     <div class="subtitle">Unity 游戏客户端开发工程师</div>
     <div class="brief">
-      西南财经大学天府学院 2023级本科生，计算机科学与技术专业。<br>
-      自学Unity开发，有游戏公司实习经历。
+      西南财经大学天府学院 2023级本科生，物联网工程专业。<br>
+      自学Unity开发，曾前往游戏公司学习过商业项目开发流程。
     </div>
     <div class="links">
       <a href="mailto:2256304779@qq.com">邮箱联系</a>
@@ -131,13 +131,13 @@
     <div class="skill-tags">
       <span class="skill-tag">Unity3D · 2D/3D开发 · UGUI</span>
       <span class="skill-tag">C# · 数据结构与算法</span>
-      <span class="skill-tag">设计模式 · MVC</span>
+      <span class="skill-tag">设计模式 · MVC · 单例 · 观察者</span>
       <span class="skill-tag">AssetBundle · 资源管理 · 热更新</span>
-      <span class="skill-tag">XLua · C#/Lua双向调用</span>
-      <span class="skill-tag">背包/商店/任务等核心系统</span>
-      <span class="skill-tag">网络通信 · Protobuf协议</span>
-      <span class="skill-tag">渲染管线 · Shader基础</span>
-      <span class="skill-tag">性能优化 · Profiler · DrawCall</span>
+      <span class="skill-tag">XLua · C#/Lua双向调用 · Lua编程</span>
+      <span class="skill-tag">背包/商店/任务/公会等核心系统</span>
+      <span class="skill-tag">网络通信 · TCP Socket · Protobuf协议</span>
+      <span class="skill-tag">AI行为 · NavMeshAgent · 有限状态机</span>
+      <span class="skill-tag">性能优化 · Profiler · 对象池</span>
       <span class="skill-tag">移动端SDK接入 · 腾讯YSDK</span>
     </div>
   </section>
@@ -150,25 +150,33 @@
     <div class="project-card" onclick="showDetail('emmo')">
       <span class="arrow">&gt;</span>
       <div class="name">极恶之战 — MMO网游</div>
-      <div class="meta">Unity 2021.3 | 独立学习项目</div>
-      <div class="desc">涵盖登录注册、角色创建、背包、装备、商城、任务、公会、队伍、好友、聊天、坐骑等MMO核心功能。服务端C#搭建，Protobuf通信，SQL Server数据库。</div>
-      <div class="tags"><span>MMO</span><span>Protobuf</span><span>SQL Server</span><span>UGUI</span><span>网络通信</span></div>
+      <div class="meta">Unity 2021.3 | 合作项目</div>
+      <div class="desc">MMO网游客户端项目，涵盖登录注册、角色创建、背包、装备、商城、任务、公会、队伍、好友、聊天、坐骑等核心系统的客户端实现。</div>
+      <div class="tags"><span>MMO</span><span>Protobuf</span><span>UGUI</span><span>网络通信</span><span>任务系统</span><span>公会系统</span></div>
     </div>
 
     <div class="project-card" onclick="showDetail('horror')">
       <span class="arrow">&gt;</span>
       <div class="name">ARPG恐怖游戏 — 废弃精神病院</div>
       <div class="meta">Unity 2023.1 | 独立开发</div>
-      <div class="desc">第一人称生存恐怖游戏。丧尸AI、女鬼哭泣天使机制、门交互、电梯系统。FirstPersonController从零手写近500行。</div>
-      <div class="tags"><span>FPS</span><span>NavMeshAgent</span><span>AI行为</span><span>动画状态机</span></div>
+      <div class="desc">ARPG恐怖游戏。选择不同英雄（各有独特技能），在废弃精神病院中探索寻找道具、收集线索、消灭女鬼。采用MVC架构实现角色系统。</div>
+      <div class="tags"><span>ARPG</span><span>MVC架构</span><span>NavMeshAgent</span><span>AI行为</span><span>英雄系统</span></div>
     </div>
 
     <div class="project-card" onclick="showDetail('xlua')">
       <span class="arrow">&gt;</span>
       <div class="name">XLua热更新框架开发的小游戏</div>
-      <div class="meta">Unity 2021.3 | 实习期间</div>
-      <div class="desc">熟悉公司XLua框架后，用Lua编写的小游戏。跑通了AssetBundle打包→Lua热更新→游戏运行的全流程。</div>
-      <div class="tags"><span>XLua</span><span>AssetBundle</span><span>热更新</span><span>Lua</span></div>
+      <div class="meta">Unity 2021.3 | 公司学习期间</div>
+      <div class="desc">基于公司XLua框架开发的小游戏。采用C#做桥接层，业务逻辑全部用Lua实现，跑通了AssetBundle打包→Lua热更新→游戏运行的完整流程。</div>
+      <div class="tags"><span>XLua</span><span>AssetBundle</span><span>热更新</span><span>Lua</span><span>UGUI</span></div>
+    </div>
+
+    <div class="project-card" onclick="showDetail('xluaframework')">
+      <span class="arrow">&gt;</span>
+      <div class="name">XLua热更新框架实现</div>
+      <div class="meta">Unity 2021.3 | 自学项目</div>
+      <div class="desc">自学XLua热更新原理，独立实现完整的热更新框架。AssetBundle打包、版本对比、增量下载、Lua脚本热更。</div>
+      <div class="tags"><span>XLua</span><span>AssetBundle</span><span>热更新</span><span>框架设计</span><span>Lua</span></div>
     </div>
 
     <div class="project-card" onclick="showDetail('photon')">
@@ -262,9 +270,9 @@ const projects = {
 
   emmo: {
     title: '极恶之战 — MMO网游',
-    meta: 'Unity 2021.3 | 独立学习项目',
-    desc: '基于Unity开发的MMO网游Demo，涵盖登录注册、角色创建、背包系统、装备、商城、任务系统（对话/提交/击杀）、公会（创建/加入/成员管理）、队伍、好友、聊天、坐骑等核心功能。服务端用C#搭建，使用Protobuf通信协议，SQL Server数据库实现玩家数据持久化存储。网络层用TCP Socket实现C/S通信，消息分发用事件系统解耦各模块。',
-    tags: ['MMO', 'Protobuf', 'SQL Server', 'UGUI', '网络通信', '任务系统', '公会系统'],
+    meta: 'Unity 2021.3 | 合作项目',
+    desc: 'MMO网游客户端项目，采用TCP Socket实现C/S网络通信，Protobuf协议序列化。客户端实现了以下核心模块：\n\n【UI系统】基于UGUI搭建了登录、注册、角色创建、主界面、背包、商城、公会、队伍、好友、聊天、坐骑、设置等十余个功能面板，通过UIManager统一管理UI层级和生命周期。\n\n【背包系统】BagManager管理物品数据，支持物品堆叠、添加/移除、二进制序列化与反序列化用于网络传输。采用字节指针直接操作内存，实现高效的背包数据解析（fixed/unsafe代码）。\n\n【角色系统】Character实体类封装角色属性，支持多个职业角色（战士、射手、法师），角色创建时可选不同职业和外观。\n\n【NPC系统】NPCManager管理场景NPC交互，支持任务NPC、功能NPC的对话和功能触发。\n\n【网络通信】NetClient基于TCP Socket实现消息收发，Protobuf协议进行消息序列化，事件系统解耦各模块消息分发，确保系统可维护性。\n\n服务端使用C#搭建，SQL Server存储玩家数据，Protobuf通信协议，客户端专注于UI表现与交互逻辑实现。',
+    tags: ['MMO', 'Protobuf', 'UGUI', '网络通信', '任务系统', '公会系统', '背包系统', '坐骑系统'],
     media: [
       { type: 'img', src: '极恶之战素材/01.png' },
       { type: 'img', src: '极恶之战素材/02.png' },
@@ -273,15 +281,14 @@ const projects = {
       { type: 'img', src: '极恶之战素材/05.png' },
       { type: 'img', src: '极恶之战素材/06.png' },
       { type: 'img', src: '极恶之战素材/07.png' },
-      { type: 'video', src: '极恶之战素材/视频.mp4' },
     ]
   },
 
   horror: {
     title: 'ARPG恐怖游戏 — 废弃精神病院',
     meta: 'Unity 2023.1 | 独立开发',
-    desc: '第一人称生存恐怖游戏。场景是废弃精神病院，玩家拿着手电筒和枪（手枪/步枪按C切换）探索。两个敌人：普通丧尸用NavMeshAgent寻路（检测范围5米，攻击范围2米），女鬼用点积判断玩家是否在看她——你看她时她不动，转头她就冲过来（类似神秘博士哭泣天使）。门用Quaternion.Slerp平滑开关，电梯带着玩家上下移动。血量100点，死亡后5秒自动重载场景。FirstPersonController从零手写，将近500行，管移动、视角、武器切换、换弹(R键)、射击(射线检测)、受击扣血。',
-    tags: ['FPS控制器', 'NavMeshAgent', 'AI行为', '射线检测', '动画状态机', '音频系统'],
+    desc: 'ARPG恐怖游戏，采用MVC架构模式设计。\n\n【英雄选择系统】玩家可选择不同英雄角色，每个英雄拥有独特的技能：\n·乌鸦：技能1透视（标记敌人位置）、技能2群攻（范围伤害）\n·甲戈：技能1免伤（减伤30%）、技能2治疗（恢复血量与恐惧值）\n\n【MVC架构】\n·Model层：CharacterModel封装角色属性（血量、恐惧值、伤害、移动速度等），通过事件OnValueChanged/OnDead通知数据变更\n·Controller层：CharacterContro处理玩家输入（WASD移动、跳跃、攻击、技能释放、手电筒开关），管理角色行为逻辑\n·View层：UICharGameViewPanel负责UI显示（血条、恐惧值条、技能图标、伤害数字），监听Model事件实时刷新\n\n【AI系统】NPCController实现完整的敌人AI行为树：巡逻模式（随机漫游+卡住检测）→ 发现玩家（视线检测+距离判断）→ 追击模式（NavMeshAgent寻路+视线丢失计时器）→ 攻击模式（动画事件触发伤害判定）。女鬼采用点积判断玩家朝向的"哭泣天使"机制——你盯着她时她不动，转头就冲过来。\n\n【玩法系统】玩家在废弃精神病院中探索寻找道具（纸质线索提示），需要同时管理生命值和恐惧值两个资源条——恐惧值持续下降，归零会扣血。通关条件是在限定时间内消灭所有女鬼。支持手电筒（O键）、普通攻击、技能释放等操作。',
+    tags: ['ARPG', 'MVC架构', 'NavMeshAgent', 'AI行为', '英雄系统', '技能系统', '动画状态机', '事件系统'],
     media: [
       { type: 'img', src: 'ARPG恐怖游戏素材/01.png' },
       { type: 'img', src: 'ARPG恐怖游戏素材/02.png' },
@@ -297,15 +304,28 @@ const projects = {
 
   xlua: {
     title: 'XLua热更新框架开发的小游戏',
-    meta: 'Unity 2021.3 | 实习期间',
-    desc: '实习期间在熟悉了公司XLua热更新框架（底层类似木渊框架/MuYuan Framework，用UPM包管理，Lua支持多版本运行时）之后，用Lua写的小游戏。目的是跑通 AssetBundle资源打包 → Lua脚本热更新 → 游戏运行 的完整开发流程。加深了对热更新机制、资源管理、Lua代码组织方式的理解。',
-    tags: ['XLua', 'AssetBundle', '热更新', 'Lua', 'UPM'],
+    meta: 'Unity 2021.3 | 公司学习期间',
+    desc: '在公司学习期间，基于公司XLua框架开发的小游戏项目。\n\n【实现的功能】\n·使用公司XLua框架开发，业务逻辑全部用Lua编写，C#做桥接层\n·实现了登录界面、主界面、游戏玩法等基础功能\n·跑通了AssetBundle打包→Lua热更新→游戏运行的完整流程\n\n【学到的内容】\n·了解了商业游戏的开发流程和框架设计\n·学习了XLua热更新的工作原理\n·掌握了AssetBundle资源管理和版本控制\n·体会到C#与Lua双向调用的桥接机制\n·了解了对象池、事件系统等常用优化方案',
+    tags: ['XLua', 'AssetBundle', '热更新', 'Lua', 'UGUI'],
     media: [
       { type: 'img', src: 'CoreXlua框架开发的小游戏/01.png' },
       { type: 'img', src: 'CoreXlua框架开发的小游戏/02.png' },
       { type: 'img', src: 'CoreXlua框架开发的小游戏/03.png' },
       { type: 'img', src: 'CoreXlua框架开发的小游戏/04.png' },
       { type: 'img', src: 'CoreXlua框架开发的小游戏/05.png' },
+    ]
+  },
+
+  xluaframework: {
+    title: 'XLua热更新框架实现',
+    meta: 'Unity 2021.3 | 自学项目',
+    desc: '自学XLua热更新原理，独立实现了一套完整的XLua游戏开发框架，业务逻辑全部使用Lua编写。\n\n【实现的功能】\n·UI系统：实现了界面层级管理、页面导航、生命周期管理等完整的UI体系\n·MVC架构：Lua端实现数据与界面分离，UI逻辑解耦\n·热更新流程：资源打包、版本对比、增量下载、运行时热更\n·游戏Demo：用框架实现了登录、大厅、关卡选择、排行榜、设置、胜负结算等完整游戏流程\n\n【学到的内容】\n·理解了热更新系统的完整流程\n·掌握了Lua端MVC分层架构的设计方法\n·学习了C#作为桥接层与Lua双向调用的机制\n·体会到商业游戏框架的模块化设计思想',
+    tags: ['XLua', 'AssetBundle', '热更新', '框架设计', 'Lua', 'MVC'],
+    media: [
+      { type: 'img', src: 'XLua框架素材/01.png' },
+      { type: 'img', src: 'XLua框架素材/02.png' },
+      { type: 'img', src: 'XLua框架素材/03.png' },
+      { type: 'img', src: 'XLua框架素材/04.png' },
     ]
   },
 
