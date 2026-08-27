@@ -77,8 +77,26 @@
   .detail-tags span { font-size: 11px; background: var(--tag-bg); color: var(--tag-text); padding: 2px 10px; border-radius: 12px; }
 
   .detail-media { display: flex; flex-wrap: wrap; gap: 12px; }
-  .detail-media img { max-width: 100%; max-height: 400px; border-radius: 6px; border: 1px solid var(--border); }
+  .detail-media img {
+    max-width: 100%; max-height: 400px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--card);
+    min-width: 200px; min-height: 120px;
+  }
   .detail-media video { max-width: 100%; max-height: 400px; border-radius: 6px; border: 1px solid var(--border); }
+  .detail-media .img-wrap {
+    position: relative; overflow: hidden; border-radius: 6px;
+    background: linear-gradient(110deg, #1a1d27 8%, #242836 18%, #1a1d27 33%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+    border: 1px solid var(--border);
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .detail-media .img-wrap.loaded { animation: none; background: none; }
+  .detail-media .img-wrap img { display: block; transition: opacity 0.4s; opacity: 0; }
+  .detail-media .img-wrap.loaded img { opacity: 1; }
 
   /* ===== 技能 ===== */
   .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -429,9 +447,14 @@ function showDetail(id) {
   html += `<div class="detail-desc">${proj.desc}</div>`;
   html += `<div class="detail-tags">${proj.tags.map(t => '<span>'+t+'</span>').join('')}</div>`;
   html += `<div class="detail-media">`;
-  for (const m of proj.media) {
+  for (let i = 0; i < proj.media.length; i++) {
+    const m = proj.media[i];
     if (m.type === 'img') {
-      html += `<img src="${m.src}" alt="" loading="lazy">`;
+      const priority = i === 0 ? 'fetchpriority="high"' : '';
+      html += `<div class="img-wrap" style="max-height:400px">
+        <img src="${m.src}" alt="" loading="lazy" decoding="async" ${priority}
+          onload="this.parentElement.classList.add('loaded')">
+      </div>`;
     } else {
       html += `<video src="${m.src}" controls preload="metadata"></video>`;
     }
