@@ -183,6 +183,14 @@
       <div class="tags"><span>XLua</span><span>AssetBundle</span><span>热更新</span><span>框架设计</span><span>Lua</span></div>
     </div>
 
+    <div class="project-card" onclick="showDetail('cityguard')">
+      <span class="arrow">&gt;</span>
+      <div class="name">城邦守卫 — 2D SLG策略游戏</div>
+      <div class="meta">Unity 2022.3 | 独立开发</div>
+      <div class="desc">2D城邦守卫SLG策略游戏，操控多种兵种采集资源、建造防御工事、击败入侵敌军。</div>
+      <div class="tags"><span>2D</span><span>SLG</span><span>工厂模式</span><span>对象池</span><span>观察者模式</span></div>
+    </div>
+
     <div class="project-card" onclick="showDetail('photon')">
       <span class="arrow">&gt;</span>
       <div class="name">Photon PUN2 多人联机 Demo</div>
@@ -328,6 +336,22 @@ const projects = {
       { type: 'img', src: 'XLua框架素材/02.jpg' },
       { type: 'img', src: 'XLua框架素材/03.jpg' },
       { type: 'img', src: 'XLua框架素材/04.jpg' },
+    ]
+  },
+
+  cityguard: {
+    title: '城邦守卫 — 2D SLG策略游戏',
+    meta: 'Unity 2022.3 | 独立开发',
+    desc: '基于Unity开发的一款2D城邦守卫SLG策略类游戏，玩家操控多种兵种（近战战士/远程射手/法术法师）在地图上采集资源、建造防御工事、击败入侵敌军；胜利条件为摧毁敌方所有建筑物及大本营。\n\n【负责内容】\n1. 工厂模式：编写工厂类作为兵种、建筑统一创建入口。通过CommandType枚举分发创建逻辑；新增兵种只需扩展枚举与预制体，不改动原有创建流程。\n2. 对象池模式：实现通用对象池，管理箭矢、Buff特效等高频实体。使用Spawn/Despawn复用物体，避免反复Instantiate/Destroy，减少GC开销，稳定维持60FPS。\n3. 观察者模式：基于单例事件总线ObserveManager，发布/订阅采集、进攻等CommandEvent。UI按钮发布指令，平民单位订阅事件后执行采集任务，模块间解耦，新增指令只需扩展事件枚举。\n\n【学到的内容】\n·掌握了三种设计模式在游戏开发中的实际应用场景\n·体会到模块解耦和扩展性设计的重要性\n·理解了对象池对游戏性能的优化作用',
+    tags: ['2D', 'SLG', '工厂模式', '对象池', '观察者模式', 'UGUI'],
+    media: [
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/01.png' },
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/02.png' },
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/03.png' },
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/04.png' },
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/05.png' },
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/06.png' },
+      { type: 'img', src: '2D游戏SLG城邦守卫素材/07.png' },
     ]
   },
 
